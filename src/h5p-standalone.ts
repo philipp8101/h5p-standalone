@@ -29,6 +29,7 @@ interface Options {
     h5pJsonPath?: string;
     librariesPath?: string;
     contentJsonPath?: string;
+    contentJsonContent?: string;
 
     frame?: boolean;
     copyright?: boolean;
@@ -206,7 +207,9 @@ export class H5PStandalone {
             librariesPath, H5PJsonContent.preloadedDependencies[0], options?.assetsRequestFetchOptions);
 
 
-        const H5PContentJsonContent = await getJSON(`${contentJsonPath}/content.json`, options?.assetsRequestFetchOptions);
+        const H5PContentJsonContent = typeof options.contentJsonContent == 'object' ?
+            options.contentJsonContent :
+            await getJSON(`${contentJsonPath}/content.json`, options?.assetsRequestFetchOptions)
 
         const mainLibrary = await this.findMainLibrary(H5PJsonContent, librariesPath);
 
